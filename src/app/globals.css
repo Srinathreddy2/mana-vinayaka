@@ -1,0 +1,514 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Mana Vinayaka — design system
+
+   Ported from the reference site's UI/UX system: a dark cinematic ink
+   base, a brass/gold primary, bone off-whites for text, clamp-based
+   display type, hairline dividers, and a single 90rem shell inside a
+   fixed gutter. Colours and content are ours.
+------------------------------------------------------------------- */
+
+@theme {
+  /* ground */
+  --color-ink-950: #060406;
+  --color-ink-900: #0a0709;
+  --color-ink-850: #0f0b0e;
+  --color-ink-800: #161014;
+
+  /* primary accent — brass, the lamp */
+  --color-brass-200: #ffd79a;
+  --color-brass-300: #f0c274;
+  --color-brass-400: #e2a85c;
+  --color-brass-500: #d1913f;
+  --color-brass-600: #a86e22;
+  --color-brass-700: #6f4715;
+
+  /* secondary accent — kumkum, used the way the reference uses its
+     electric second colour: sparingly, for punctuation and markers */
+  --color-kum-300: #f08e7a;
+  --color-kum-400: #d8604a;
+  --color-kum-500: #b83f2e;
+  --color-kum-600: #7b2d26;
+
+  /* type */
+  --color-bone-50: #fffdf9;
+  --color-bone-100: #f5f0e8;
+  --color-bone-200: #d8d3c8;
+  --color-bone-300: #a9a499;
+  --color-bone-400: #7d7970;
+  --color-bone-500: #565248;
+
+  --color-edge: #4a4636;
+  --color-edge-dim: #241c22;
+
+  --font-display: var(--font-display-face), "Georgia", serif;
+  --font-sans: var(--font-sans-face), ui-sans-serif, system-ui, sans-serif;
+  --font-deva: var(--font-deva-face), var(--font-sans-face), sans-serif;
+  --font-signature: var(--font-signature-face), cursive;
+
+  --text-mega: clamp(3rem, 12vw, 10rem);
+  --text-hero: clamp(2.4rem, 7.5vw, 6.25rem);
+  --text-display: clamp(1.9rem, 5vw, 3.75rem);
+  --text-title: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* ------------------------------- base ----------------------------- */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: dark;
+}
+
+/* ------------------------ large-monitor scaling -------------------- */
+
+/*
+  Everything in this design system is expressed in rem — the shell, the
+  gutter, every type step, every Tailwind spacing utility. That makes the
+  root font size the single lever for how large the interface renders.
+
+  Below 1600px the root stays at the browser default, so laptops render
+  exactly as before. Above it the root grows with the viewport, which
+  lifts type, spacing and the shell together instead of leaving the page
+  marooned in the middle of a wide monitor.
+
+  1vw === 16px at exactly 1600px, so the transition across the threshold
+  is continuous — there is no jump at the breakpoint.
+
+  Note: `rem` inside a media query always resolves against the initial
+  16px, never against this value, so every Tailwind breakpoint keeps
+  firing at the same physical width.
+*/
+@media (min-width: 1600px) {
+  html {
+    font-size: clamp(16px, 1vw, 20px);
+  }
+}
+
+/* Lenis drives the scroll; native smooth would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-ink-850);
+  color: var(--color-bone-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(209, 145, 63, 0.28);
+  color: var(--color-bone-50);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink-950);
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2028;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brass-700);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-brass-400);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ----------------------------- layout ----------------------------- */
+
+.gutter {
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .gutter {
+    padding-inline: 2.5rem;
+  }
+}
+
+.shell {
+  width: 100%;
+  max-width: var(--shell-max, 90rem);
+  margin-inline: auto;
+}
+
+/*
+  Ultra-wide only. Root scaling alone keeps the shell proportional up to
+  about 2560px; past that the measure starts to look narrow again, so the
+  shell is allowed a little more room. Laptop and standard desktop widths
+  never reach these queries.
+*/
+@media (min-width: 2200px) {
+  :root {
+    --shell-max: 96rem;
+  }
+}
+@media (min-width: 2800px) {
+  :root {
+    --shell-max: 104rem;
+  }
+}
+
+/* --------------------------- typography --------------------------- */
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.text-mega {
+  font-size: var(--text-mega);
+}
+.text-hero {
+  font-size: var(--text-hero);
+}
+.text-display {
+  font-size: var(--text-display);
+}
+.text-title {
+  font-size: var(--text-title);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-brass-400);
+}
+
+.micro {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-bone-400);
+}
+
+.text-brass-gradient {
+  background-image: linear-gradient(
+    170deg,
+    var(--color-brass-200) 0%,
+    var(--color-brass-400) 46%,
+    var(--color-brass-700) 100%
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ---------------------------- surfaces ---------------------------- */
+
+.hairline {
+  border: 1px solid var(--color-edge-dim);
+}
+
+.glass {
+  /* literal rather than color-mix(): the mix resolves to transparent in
+     some engines when the source is a theme variable */
+  background: rgba(10, 7, 9, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.edge-fade-x {
+  -webkit-mask-image: linear-gradient(90deg, #0000, #000 8% 92%, #0000);
+  mask-image: linear-gradient(90deg, #0000, #000 8% 92%, #0000);
+  transform: translateZ(0);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------- controls ---------------------------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-lg {
+  height: 3.5rem;
+  padding-inline: 2rem;
+  font-size: 0.9375rem;
+}
+.btn-md {
+  height: 3rem;
+  padding-inline: 1.5rem;
+  font-size: 0.875rem;
+}
+.btn-sm {
+  height: 2.5rem;
+  padding-inline: 1.125rem;
+  font-size: 0.8125rem;
+}
+
+.btn-primary {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-brass-300),
+    var(--color-brass-500)
+  );
+  color: var(--color-ink-950);
+  box-shadow: 0 10px 40px -12px rgb(209 145 63 / 0.7);
+}
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 16px 54px -10px rgb(209 145 63 / 0.9);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  border: 1px solid rgb(209 145 63 / 0.35);
+  color: var(--color-bone-100);
+}
+.btn-ghost:hover:not(:disabled) {
+  border-color: rgb(226 168 92 / 0.7);
+  background: rgb(209 145 63 / 0.08);
+  transform: translateY(-2px);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgb(168 110 34 / 0.4);
+  background: rgb(209 145 63 / 0.1);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-brass-300);
+}
+
+.field {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-edge-dim);
+  padding: 0.75rem 0;
+  font-size: 1.0625rem;
+  color: var(--color-bone-50);
+  transition: border-color 0.3s ease;
+}
+.field::placeholder {
+  color: var(--color-bone-500);
+}
+.field:focus {
+  outline: none;
+  border-bottom-color: var(--color-brass-400);
+}
+textarea.field {
+  resize: none;
+  line-height: 1.7;
+}
+
+input[type="date"].field::-webkit-calendar-picker-indicator {
+  filter: invert(0.75) sepia(0.5) saturate(3) hue-rotate(350deg);
+  cursor: pointer;
+}
+
+/* --------------------------- animation ---------------------------- */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes mandala-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lamp-pulse {
+  0%,
+  100% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes flame {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.08);
+  }
+}
+
+/* Location pin: rings that breathe outward from the marker. */
+@keyframes pin-ping {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.5;
+  }
+  70% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+.pin-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pin-ping 3.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes scroll-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@keyframes floodlight-pulse {
+  0%,
+  100% {
+    opacity: 0.70;
+    transform: scale(1) translateZ(0);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.06) translateZ(0);
+  }
+}
+
+@keyframes hero-ambient-float {
+  0%,
+  100% {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes ambient-breathe {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.42;
+    transform: translate3d(0, -4px, 0) scale(1.02);
+  }
+}
+
+/* Progressive blur-up and ultra-smooth media zoom */
+.media-img {
+  opacity: 0;
+  filter: blur(16px);
+  transform: scale(1) translateZ(0);
+  will-change: opacity, filter, transform;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.media-img.is-loaded {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* Silky, gentle, slow hover zoom for all photos and videos */
+.group:hover .media-img,
+.group\/tile:hover .media-img,
+.group\/row:hover .media-img,
+.group\/reel:hover .media-img,
+.group\/video:hover .media-img,
+.group\/map:hover .media-img {
+  transform: scale(1.05) translateZ(0) !important;
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Film grain over everything, the way the reference finishes its pages. */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  transform: translateZ(0);
+  will-change: transform;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
