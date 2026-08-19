@@ -56,13 +56,6 @@ export default function YearPage() {
           {Number.isFinite(year) ? `${year} has no memories in the book.` : "That year does not exist."}
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <button
-            type="button"
-            onClick={() => openComposer({ year: Number.isFinite(year) ? year : undefined })}
-            className="btn btn-primary btn-lg"
-          >
-            Add the first memory
-          </button>
           <Link href="/years" className="btn btn-ghost btn-lg">
             Back to years
           </Link>
@@ -129,11 +122,6 @@ export default function YearPage() {
           eyebrow="The day"
           title="Morning to visarjan."
           note="In the order it happened."
-          aside={
-            <button type="button" onClick={() => openComposer({ year })} className="btn btn-ghost btn-md">
-              Add to {year}
-            </button>
-          }
         />
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -8,16 +8,7 @@ import type { Capsule, Festival, Media, Memory, Person } from "./types";
    so the app looks alive offline, with no binary assets to ship.
 ------------------------------------------------------------------- */
 
-export const PEOPLE: Person[] = [
-  { id: "amma", name: "Amma", relation: "Mother", note: "Keeper of the kitchen and of every ritual we would otherwise forget." },
-  { id: "nanna", name: "Nanna", relation: "Father", note: "Wakes before everyone, buys the idol, refuses help carrying it." },
-  { id: "srinath", name: "Srinath", relation: "Me", note: "The one behind the camera, mostly." },
-  { id: "sirisha", name: "Sirisha", relation: "Sister", note: "Comes home from Bengaluru every year, without fail." },
-  { id: "chinnu", name: "Chinnu", relation: "Niece", note: "Six years old. Asks the questions nobody else thinks to ask." },
-  { id: "tatayya", name: "Tatayya", relation: "Grandfather", note: "Remembers Chavithi in the old house, and tells it the same way every year." },
-  { id: "ammamma", name: "Ammamma", relation: "Grandmother", note: "Sits by the mandapam and watches everything." },
-  { id: "ravi", name: "Ravi", relation: "Cousin", note: "Always late, always carrying too many sweets." },
-];
+export const PEOPLE: Person[] = [];
 
 export const FESTIVALS: Festival[] = [
   {

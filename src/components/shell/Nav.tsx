@@ -140,36 +140,36 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex items-center gap-2.5">
-              {/* Instagram Icon Circular Button */}
+              {/* Instagram Icon Circular Button (Desktop/Tablet only) */}
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow us on Instagram"
-                className="grid size-10 place-items-center rounded-full border border-brass-500/30 bg-ink-950/60 text-bone-100 transition-all duration-300 hover:scale-105 hover:border-brass-400 hover:text-brass-300"
+                className="hidden md:grid size-10 place-items-center rounded-full border border-brass-500/30 bg-ink-950/60 text-bone-100 transition-all duration-300 hover:scale-105 hover:border-brass-400 hover:text-brass-300"
               >
                 <InstagramIcon />
               </a>
 
-              {/* Contact / External Link Pill Button matching Team Thunders reference */}
+              {/* Contact Pill Button (Desktop/Tablet only) */}
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contact on Instagram"
-                className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-brass-300 via-brass-400 to-brass-500 px-4 py-2 font-sans text-xs font-bold text-ink-950 shadow-[0_0_20px_rgba(232,176,75,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(232,176,75,0.6)]"
+                className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-brass-300 via-brass-400 to-brass-500 px-4 py-2 font-sans text-xs font-bold text-ink-950 shadow-[0_0_20px_rgba(232,176,75,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(232,176,75,0.6)]"
               >
                 <span>Contact</span>
                 <ArrowUpRightIcon />
               </a>
 
-              {/* Mobile menu burger button */}
+              {/* Mobile 3-line hamburger menu button */}
               <button
                 type="button"
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
                 onClick={() => setMenuOpen((v) => !v)}
-                className="hairline grid size-10 place-items-center rounded-full text-bone-100 transition-colors hover:border-brass-400/60 hover:text-brass-300 lg:hidden"
+                className="hairline grid size-10 place-items-center rounded-full border border-brass-500/30 bg-ink-950/60 text-bone-100 transition-colors hover:border-brass-400/60 hover:text-brass-300 lg:hidden"
               >
                 {menuOpen ? <Close /> : <Burger />}
               </button>
@@ -193,8 +193,6 @@ function MobileMenu({
   onClose: () => void;
   pathname: string;
 }) {
-  const { openComposer } = useStore();
-
   return (
     <AnimatePresence>
       {open && (
@@ -236,20 +234,18 @@ function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="gutter mt-12 flex flex-col gap-5"
+            className="gutter mt-12 flex flex-col gap-4"
           >
             <span className="font-deva text-brass-400">గణపతి బాప్పా మోరియా</span>
-            <button
-              type="button"
-              onClick={() => {
-                onClose();
-                openComposer();
-              }}
-              className="btn btn-primary btn-lg self-start"
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-brass-300 uppercase transition-colors hover:text-brass-200"
             >
-              <Plus />
-              Add Memory
-            </button>
+              <span>Follow on Instagram</span>
+              <ArrowUpRightIcon />
+            </a>
           </motion.div>
         </motion.div>
       )}

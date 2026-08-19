@@ -210,6 +210,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         theme: draft.theme?.trim() || undefined,
         voiceBy: draft.voiceBy?.trim() || undefined,
         userCreated: true,
+        homeHidden: true,
       };
 
       setArchive((prev) => ({ ...prev, memories: [...prev.memories, memory] }));

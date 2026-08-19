@@ -249,53 +249,6 @@ export function Composer() {
               />
             </Question>
 
-            {/* people */}
-            <Question label="Who was there?">
-              <div className="flex flex-wrap gap-2 pt-1">
-                {people.map((p) => {
-                  const on = draft.people.includes(p.id);
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => togglePerson(p.id)}
-                      className={`rounded-full px-4 py-2 text-[0.875rem] transition-all duration-200 ${
-                        on
-                          ? "bg-brass-500 text-ink-950"
-                          : "border border-brass-500/20 text-bone-200 hover:border-brass-400/60"
-                      }`}
-                    >
-                      {p.name}
-                    </button>
-                  );
-                })}
-                {showPersonInput ? (
-                  <input
-                    autoFocus
-                    value={newPerson}
-                    onChange={(e) => setNewPerson(e.target.value)}
-                    onBlur={commitNewPerson}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        commitNewPerson();
-                      }
-                    }}
-                    placeholder="Their name"
-                    className="rounded-full border border-brass-400/60 bg-transparent px-4 py-2 text-[0.875rem] outline-none"
-                  />
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setShowPersonInput(true)}
-                    className="rounded-full border border-dashed border-brass-500/20 px-4 py-2 text-[0.875rem] text-bone-400 transition-colors hover:border-brass-400 hover:text-bone-50"
-                  >
-                    + Someone else
-                  </button>
-                )}
-              </div>
-            </Question>
-
             {/* when */}
             <Question label="When was this?">
               <input

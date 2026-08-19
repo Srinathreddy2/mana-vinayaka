@@ -128,14 +128,6 @@ export function Hero({
                   <CalendarIcon />
                   Open {festival.year}
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => openComposer({ year: festival.year })}
-                  className="btn btn-ghost btn-lg"
-                >
-                  <PlusIcon />
-                  Add Memory
-                </button>
               </div>
             </Reveal>
 

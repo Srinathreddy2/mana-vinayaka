@@ -54,8 +54,7 @@ const FOOTER_LINKS = [
     { href: "/memories", label: "Memories" },
   ] },
   { title: "Browse", links: [
-    { href: "/memories?view=people", label: "People" },
-    { href: "/memories", label: "Photos & stories" },
+    { href: "/memories", label: "All memories" },
     { href: "/film", label: "Memory film" },
   ] },
 ];
