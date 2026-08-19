@@ -49,21 +49,9 @@ export function MediaFrame({
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!media?.blobKey && !media?.src) {
+    if (!media?.blobKey && !media?.src && !src) {
       const t = setTimeout(() => setLoaded(true), 30);
       return () => clearTimeout(t);
-    }
-    if (src) {
-      const img = new Image();
-      img.src = src;
-      if (img.complete && img.naturalWidth > 0) {
-        setLoaded(true);
-        return;
-      }
-      img.onload = () => setLoaded(true);
-      img.onerror = () => setLoaded(true);
-    } else {
-      setLoaded(false);
     }
   }, [media?.blobKey, media?.src, src]);
 
@@ -78,6 +66,7 @@ export function MediaFrame({
         src={mediaUrl}
         poster={src}
         controls
+        preload="metadata"
         playsInline
         className={`${className ?? ""}`}
       />
@@ -89,6 +78,8 @@ export function MediaFrame({
     <img
       src={src}
       alt={media.alt ?? ""}
+      loading="lazy"
+      decoding="async"
       onLoad={() => setLoaded(true)}
       ref={(el) => {
         if (el && el.complete && el.naturalWidth > 0 && !loaded) {

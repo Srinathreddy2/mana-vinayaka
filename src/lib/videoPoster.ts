@@ -31,7 +31,7 @@ export function captureVideoPoster(source: Blob | string): Promise<Blob | null> 
     const url = ownsUrl ? URL.createObjectURL(source) : source;
 
     const video = document.createElement("video");
-    video.preload = "auto";
+    video.preload = "metadata";
     video.muted = true;
     video.playsInline = true;
     video.crossOrigin = "anonymous";
@@ -90,6 +90,33 @@ export function captureVideoPoster(source: Blob | string): Promise<Blob | null> 
 const derivedPosters = new Map<string, string | null>();
 const inFlight = new Map<string, Promise<string | null>>();
 
+let posterQueue: (() => void)[] = [];
+let activePosterCount = 0;
+
+function runQueuedPosterTask<T>(taskFn: () => Promise<T>): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const execute = () => {
+      activePosterCount++;
+      taskFn()
+        .then(resolve)
+        .catch(reject)
+        .finally(() => {
+          activePosterCount--;
+          if (posterQueue.length > 0) {
+            const next = posterQueue.shift();
+            if (next) next();
+          }
+        });
+    };
+
+    if (activePosterCount < 1) {
+      execute();
+    } else {
+      posterQueue.push(execute);
+    }
+  });
+}
+
 function derivePosterUrl(videoUrl: string): Promise<string | null> {
   const cached = derivedPosters.get(videoUrl);
   if (cached !== undefined) return Promise.resolve(cached);
@@ -97,7 +124,7 @@ function derivePosterUrl(videoUrl: string): Promise<string | null> {
   const existing = inFlight.get(videoUrl);
   if (existing) return existing;
 
-  const task = captureVideoPoster(videoUrl).then((blob) => {
+  const task = runQueuedPosterTask(() => captureVideoPoster(videoUrl)).then((blob) => {
     const objectUrl = blob ? URL.createObjectURL(blob) : null;
     derivedPosters.set(videoUrl, objectUrl);
     inFlight.delete(videoUrl);
